@@ -15,7 +15,7 @@ builder.Services.AddScoped<ILaptopRepository, LaptopRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddTransient<ILogger>(s => s.GetService<ILogger<Program>>());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

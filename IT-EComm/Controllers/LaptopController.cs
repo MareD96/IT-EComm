@@ -31,8 +31,9 @@ namespace IT_EComm.Controllers
             {
                 var models = await _laptopRepository.GetAllAsync();
                 _response.StatusCode= System.Net.HttpStatusCode.OK;
-                _logger.LogInformation("Calling GetAllLaptops HTTP GET");
-                _response.Result = _mapper.Map<LaptopDTO>(models);
+                
+                _response.Result = _mapper.Map<List<LaptopDTO>>(models);
+                _logger.LogInformation("Everything ran sucessfull");
                 return _response;
                
             }
@@ -203,7 +204,6 @@ namespace IT_EComm.Controllers
                 _logger.LogInformation("Everything run successfull");
                 _laptopRepository.Delete(modelToDelete);
                 _response.StatusCode = System.Net.HttpStatusCode.OK;
-                _response.Result=_mapper.Map<LaptopDTO>(modelToDelete);
                 return _response;
             }
             catch (Exception ex)
