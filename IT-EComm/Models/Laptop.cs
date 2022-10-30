@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static IT_EComm.Helpers.Utility;
 
 namespace IT_EComm.Models
@@ -19,56 +20,49 @@ namespace IT_EComm.Models
         //Ram memory
         [Required]
         public int RAMMemory { get; set; }
+        public string DDR { get; set; }
 
         //Graphic Card
         [Required]
-        public Brands GraphicCardBrand { get; set; }
+        public string GraphicCardBrand { get; set; }
         [Required]
         public string GraphicCardModel { get; set; }
-        [Required]
-        public int GraphicCardMemory { get; set; }
+        public int? GraphicCardMemory { get; set; }
         [Required]
         public string Color { get; set; }
 
 
         //CPU
         [Required]
-        public Brands ProcessorBrand { get; set; }
+        public string ProcessorBrand { get; set; }
         [Required]
         public string ProcessorModel { get; set; }
-        [Required]
-        public int ProcessorNoCores { get; set; }
-        [Required]
-        public double CPUSpeed { get; set; }
-        [Required]
+        public int? ProcessorNoCores { get; set; }
+        public double? CPUSpeed { get; set; }
 
 
         //Storage
-
-        public Storage Storage { get; set; }
-
+        [Required]
+        public string Storage { get; set; }
+        [Required]
         public int StorageSize { get; set; }
 
         //Os 
-        public OS OS { get; set; }
+        [Required]
+        public string OS { get; set; }
 
         //
 
         //Display
-        public string Resolution { get; set; }
-        public double Inchs { get; set; }
-        
+        public string? Resolution { get; set; }
+        public double? Inchs { get; set; }
+
+        //other thins will be showin in description string
+        public string? Description { get; set; }
 
 
-        //Communication
-        public string WebCam { get; set; }
-        public string WiFi { get; set; }
-        public string LAN { get; set; }
-        public int BluetoothNo { get; set; }
-        public int UsbCNo { get; set; }
 
-        //Image
-        public string ImageURl { get; set; }
+
 
 
     }

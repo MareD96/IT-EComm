@@ -34,6 +34,12 @@
             MacOs,
             NA
         }
+        public enum DDR
+        {
+            DDR3,
+            DDR4,
+            DDR5
+        }
       
     }
 }

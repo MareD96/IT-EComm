@@ -4,6 +4,7 @@ using IT_EComm.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IT_EComm.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221030181344_addedImagesTable")]
+    partial class addedImagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +68,8 @@ namespace IT_EComm.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OS")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OS")
+                        .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -112,7 +113,7 @@ namespace IT_EComm.Migrations
                             GraphicCardMemory = 2,
                             GraphicCardModel = "GeForce MX350",
                             Model = "Vostro 3510",
-                            OS = "Linux",
+                            OS = 2,
                             Price = 600.0,
                             ProcessorBrand = "Intel",
                             ProcessorModel = "i5-1135G7",
@@ -129,7 +130,7 @@ namespace IT_EComm.Migrations
                             GraphicCardBrand = "AMD",
                             GraphicCardModel = "Radeon RX Vega 6",
                             Model = "Aspire 5 A515-45 NX.A84EX.00A",
-                            OS = "NA",
+                            OS = 4,
                             Price = 500.0,
                             ProcessorBrand = "AMD",
                             ProcessorModel = "Lucienne Ryzen 3 5300U",
@@ -146,7 +147,7 @@ namespace IT_EComm.Migrations
                             GraphicCardBrand = "Intel",
                             GraphicCardModel = "Intel UHD",
                             Model = "Vostro 3510",
-                            OS = "Windows",
+                            OS = 1,
                             Price = 600.0,
                             ProcessorBrand = "Intel",
                             ProcessorModel = "i5-1135G7",
