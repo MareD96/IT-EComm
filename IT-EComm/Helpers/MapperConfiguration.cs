@@ -11,6 +11,10 @@ namespace IT_EComm.Helpers
             CreateMap<Laptop, LaptopDTO>().ReverseMap();
             CreateMap<Laptop, CreateLaptopDTO>().ReverseMap();
             CreateMap<Laptop, UpdateLaptopDTO>().ReverseMap();
+
+            CreateMap<LaptopImages, LaptopImagesDTO>().ReverseMap();
+            CreateMap<LaptopImages, CreateLaptopImagesDTO>().ReverseMap();
+            CreateMap<LaptopImages, UpdateLaptopImagesDTO>().ReverseMap();
         }
     }
 }

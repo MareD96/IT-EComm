@@ -11,6 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(MapperConfiguration));
 builder.Services.AddScoped<ILaptopRepository, LaptopRepository>();
+builder.Services.AddScoped<ILaptopImagesRepository, LaptopImagesRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

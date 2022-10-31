@@ -7,35 +7,36 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IT_EComm.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    public class LaptopController : ControllerBase
+    public class LaptopImagesController : ControllerBase
     {
-        private readonly ILaptopRepository _laptopRepository;
+        private readonly ILaptopImagesRepository _laptopImagesRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
+        private readonly ILaptopRepository _laptopRepository;
         protected APIResponse _response;
-        public LaptopController(ILaptopRepository laptopRepository,IMapper mapper,ILogger logger)
+        public LaptopImagesController(ILaptopImagesRepository laptopImagesRepository,IMapper mapper,ILogger logger,ILaptopRepository laptopRepository)
         {
-            _laptopRepository = laptopRepository;
+            _laptopImagesRepository = laptopImagesRepository;
             _mapper = mapper;
             _logger = logger;
+            _laptopRepository = laptopRepository;
             _response = new();
         }
 
         [HttpGet]
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status502BadGateway)]
-        public async Task<ActionResult<APIResponse>> GetLaptops()
+        public async Task<ActionResult<APIResponse>> GetAllLaptopImages()
         {
-            _logger.LogInformation("Calling GetAllLaptops HTTP GET");
+            _logger.LogInformation("Calling GetAllLaptopImages HTTP GET");
             try
             {
-                var models = await _laptopRepository.GetAllAsync();
+                var models = await _laptopImagesRepository.GetAllAsync();
                 _response.StatusCode= System.Net.HttpStatusCode.OK;
                 
-                _response.Result = _mapper.Map<List<LaptopDTO>>(models);
+                _response.Result = _mapper.Map<List<LaptopImagesDTO>>(models);
                 _logger.LogInformation("Everything ran sucessfull");
                 return Ok(_response);
                
@@ -54,11 +55,13 @@ namespace IT_EComm.Controllers
             
             return _response;
         }
-        [HttpGet("{id:int}", Name = "GetLaptop")]
+        
+        [HttpGet("{id:int}", Name = "GetLaptopImage")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetLaptops(int id)
+        //Returns one image accordint to the id
+        public async Task<ActionResult<APIResponse>> GetLaptopImage(int id)
         {
             _logger.LogInformation("Calling GetLaptop by Id HTTP GET");
             try
@@ -72,17 +75,17 @@ namespace IT_EComm.Controllers
                     return _response;
                 }
 
-                var foundLaptop = await _laptopRepository.GetAsync(x => x.Id == id);
-                if (foundLaptop == null)
+                var foundImage = await _laptopImagesRepository.GetAsync(x => x.Id == id);
+                if (foundImage == null)
                 {
                     _logger.LogWarning("Model not found");
                     _response.IsSuccess = false;
                     _response.StatusCode = System.Net.HttpStatusCode.NotFound;
-                    _response.ErrorMessagess = new List<string>() { "Laptop don't exsits in database!" };
+                    _response.ErrorMessagess = new List<string>() { "Laptop images don't exsits in database!" };
                 }
                 _logger.LogInformation("Everything run successfull");
                 _response.StatusCode = System.Net.HttpStatusCode.OK;
-                _response.Result = _mapper.Map<LaptopDTO>(foundLaptop);
+                _response.Result = _mapper.Map<LaptopImagesDTO>(foundImage);
                 return _response;
             }
             catch (Exception ex)
@@ -99,10 +102,57 @@ namespace IT_EComm.Controllers
             return _response;
         }
 
+        [HttpGet("{laptopid:int}", Name = "GetAllLaptopImages")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        //TOBEDONE
+        public async Task<ActionResult<APIResponse>> GetAllLaptopImages(int laptopid)
+        {
+            _logger.LogInformation("Calling GetLaptop by Id HTTP GET");
+            try
+            {
+                if (laptopid == 0)
+                {
+                    _logger.LogWarning("Id is 0 or not sent in query");
+                    _response.IsSuccess = false;
+                    _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                    _response.ErrorMessagess = new List<string>() { "Bad input data!" };
+                    return _response;
+                }
+
+                var foundLaptopImages = await _laptopImagesRepository.GetLapTopImages(laptopid);
+                if (foundLaptopImages == null)
+                {
+                    _logger.LogWarning("Model not found");
+                    _response.IsSuccess = false;
+                    _response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    _response.ErrorMessagess = new List<string>() { "Laptop images don't exsits in database!" };
+                }
+                _logger.LogInformation("Everything run successfull");
+                _response.StatusCode = System.Net.HttpStatusCode.OK;
+                _response.Result = _mapper.Map<List<LaptopImagesDTO>>(foundLaptopImages);
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"There is excetpion {ex.Message}");
+                _response.IsSuccess = false;
+                _response.StatusCode = System.Net.HttpStatusCode.BadGateway;
+                _response.ErrorMessagess = new List<string>
+                {
+                    ex.Message.ToString()
+                };
+            }
+
+            return _response;
+        }
+
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> CreateLaptop([FromBody] CreateLaptopDTO createLaptop)
+        public async Task<ActionResult<APIResponse>> CreateLaptop([FromBody] CreateLaptopImagesDTO createImageLaptop)
         {
             _logger.LogInformation("Calling CreateLaptop HTTP POST");
             try
@@ -115,15 +165,23 @@ namespace IT_EComm.Controllers
                     _response.ErrorMessagess = new List<string>() { "Wrong input data for model" };
                     return _response;
                 }
-                if (await _laptopRepository.GetAsync(u => u.Model == createLaptop.Model) != null)
+                if (await _laptopRepository.GetAsync(u=>u.Id==createImageLaptop.LaptopId)==null)
+                {
+                    _logger.LogWarning("Cannot find the laptop");
+                    _response.IsSuccess = false;
+                    _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                    _response.ErrorMessagess = new List<string>() {"Cannot find the laptop!" };
+                    return _response;
+                }
+                if ((await _laptopImagesRepository.GetAsync(u => u.ImageURL == createImageLaptop.ImageURL) != null)||(await _laptopImagesRepository.GetAsync(u=>u.Paths ==createImageLaptop.Paths)!=null))
                 {
                     _logger.LogWarning("Found same model in DB");
                     _response.IsSuccess = false;
                     _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
-                    _response.ErrorMessagess = new List<string>() { "This model of laptop already exists in databas!" };
+                    _response.ErrorMessagess = new List<string>() { "This image of laptop already exists in databas!" };
                     return _response;
                 }
-                if (createLaptop == null)
+                if (createImageLaptop == null)
                 {
                     _logger.LogWarning("Model not found");
                     _response.IsSuccess = false;
@@ -132,11 +190,11 @@ namespace IT_EComm.Controllers
                     return _response;
                 }
                 _logger.LogInformation("Everything run successfull");
-                var modelToSave = _mapper.Map<Laptop>(createLaptop);
-                await _laptopRepository.CreateAsync(modelToSave);
+                var modelToSave = _mapper.Map<LaptopImages>(createImageLaptop);
+                await _laptopImagesRepository.CreateAsync(modelToSave);
                 _response.StatusCode = System.Net.HttpStatusCode.Created;
-                _response.Result = _mapper.Map<LaptopDTO>(modelToSave);
-                return CreatedAtRoute("GetLaptop", new { id = createLaptop.Id }, createLaptop);
+                _response.Result = _mapper.Map<LaptopImagesDTO>(modelToSave);
+                return CreatedAtRoute("GetLaptopImage", new { id = modelToSave.Id }, _response.Result);
             }
             catch (Exception ex)
             {
@@ -156,12 +214,12 @@ namespace IT_EComm.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> UpdateLaptop(int id,[FromBody] UpdateLaptopDTO updateLaptop)
+        public async Task<ActionResult<APIResponse>> UpdateLaptopImage(int id,[FromBody] UpdateLaptopImagesDTO updateLaptopImagesDTO)
         {
-            _logger.LogInformation("Calling UpdateLaptop HTTP PUT");
+            _logger.LogInformation("Calling UpdateLaptopImage HTTP PUT");
             try
             {
-                if (updateLaptop == null || id != updateLaptop.Id)
+                if (updateLaptopImagesDTO == null || id != updateLaptopImagesDTO.Id)
                 {
                     _logger.LogWarning("Model in body is null or id sent in query and in the body are diffrent");
                     _response.IsSuccess = false;
@@ -178,9 +236,9 @@ namespace IT_EComm.Controllers
                     return _response;
                 }
                 _logger.LogInformation("Everything run successfull");
-                var modelToSave = _mapper.Map<Laptop>(updateLaptop);
-                await _laptopRepository.UpdateAsync(modelToSave);
-                _response.Result = _mapper.Map<LaptopDTO>(modelToSave);
+                var modelToSave = _mapper.Map<LaptopImages>(updateLaptopImagesDTO);
+                await _laptopImagesRepository.UpdateAsync(modelToSave);
+                _response.Result = _mapper.Map<LaptopImagesDTO>(modelToSave);
                 _response.StatusCode = System.Net.HttpStatusCode.OK;
 
             }
@@ -201,12 +259,12 @@ namespace IT_EComm.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> DeleteLaptop(int id)
+        public async Task<ActionResult<APIResponse>> DeleteLaptopImage(int id)
         {
             _logger.LogInformation("Calling DeleteLaptop HTTP DELETE");
             try
             {
-                var modelToDelete = await _laptopRepository.GetAsync(u => u.Id == id);
+                var modelToDelete = await _laptopImagesRepository.GetAsync(u => u.Id == id);
                 if (modelToDelete == null)
                 {
                     _logger.LogWarning("Cannont find this model by Id");
@@ -216,7 +274,7 @@ namespace IT_EComm.Controllers
                     return _response;
                 }
                 _logger.LogInformation("Everything run successfull");
-                _laptopRepository.Delete(modelToDelete);
+                _laptopImagesRepository.Delete(modelToDelete);
                 _response.StatusCode = System.Net.HttpStatusCode.OK;
                 return _response;
             }

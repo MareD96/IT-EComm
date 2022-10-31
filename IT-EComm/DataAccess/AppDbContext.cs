@@ -83,6 +83,45 @@ namespace IT_EComm.DataAccess
                     OS = Utility.OS.Windows.ToString()
                 }
                 ) ;
+
+            modelBuilder.Entity<LaptopImages>().HasData
+                (
+                new LaptopImages
+                {
+                    Id=1,
+                    LaptopId=1,
+                    ImageURL= "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/vostro-notebooks/15-3510/media-gallery/archive/dv3510nt_cnb_00000ff090_bk.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=402&qlt=100,1&resMode=sharp2&size=402,402&chrss=full"
+                },
+                new LaptopImages
+                {
+                    Id = 2,
+                    LaptopId = 1,
+                    ImageURL = "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/vostro-notebooks/15-3510/media-gallery/archive/dv3510nt_cnb_00055rf110_bk.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=402&qlt=100,1&resMode=sharp2&size=402,402&chrss=full"
+                },
+                new LaptopImages
+                {
+                    Id=3,
+                    LaptopId=1,
+                    ImageURL= "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/vostro-notebooks/15-3510/media-gallery/archive/dv3510nt_cnb_00180bf090_bk.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=402&qlt=100,1&resMode=sharp2&size=402,402&chrss=full"
+                },
+
+
+                new LaptopImages
+                {
+                    Id=4,
+                    LaptopId=2,
+                    ImageURL= "https://img.gigatron.rs/img/products/large/ACER-Aspire-5-A515-45-NX.A84EX.00A-64.png"
+                },
+
+
+                new LaptopImages
+                {
+                    Id=5,
+                    LaptopId=3,
+                    ImageURL= "https://img.gigatron.rs/img/products/large/image61e58adf23222.png"
+
+                }
+                );
         }
 
     }
