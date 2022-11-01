@@ -13,6 +13,7 @@ namespace IT_EComm.DataAccess
 
         public DbSet<Laptop> Laptops{ get; set; }
         public DbSet<LaptopImages> ImagesLaptops { get; set; }
+        public DbSet<LocalUser> User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
