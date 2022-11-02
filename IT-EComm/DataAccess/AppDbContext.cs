@@ -1,10 +1,11 @@
 ﻿using IT_EComm.Helpers;
 using IT_EComm.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IT_EComm.DataAccess
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options):base (options)
         {
@@ -14,6 +15,7 @@ namespace IT_EComm.DataAccess
         public DbSet<Laptop> Laptops{ get; set; }
         public DbSet<LaptopImages> ImagesLaptops { get; set; }
         public DbSet<LocalUser> User { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

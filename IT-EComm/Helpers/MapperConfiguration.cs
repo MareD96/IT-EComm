@@ -18,6 +18,9 @@ namespace IT_EComm.Helpers
 
             CreateMap<RegisterationRequestDTO, LocalUser>().ReverseMap();
             CreateMap<LocalUser, UserDTO>().ReverseMap();
+
+            CreateMap<RegisterationRequestDTO, ApplicationUser>().ReverseMap();
+            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
         }
     }
 }

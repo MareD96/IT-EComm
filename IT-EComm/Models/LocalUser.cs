@@ -2,6 +2,8 @@
 
 namespace IT_EComm.Models
 {
+    //Move to Microsoft Authetication this was primary account
+    [Obsolete]
     public class LocalUser
     {
         [Key]
