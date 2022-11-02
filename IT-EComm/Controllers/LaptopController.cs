@@ -2,6 +2,7 @@
 using IT_EComm.Models;
 using IT_EComm.Models.DTO;
 using IT_EComm.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,6 +56,8 @@ namespace IT_EComm.Controllers
             return _response;
         }
         [HttpGet("{id:int}", Name = "GetLaptop")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
