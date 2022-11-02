@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddControllers().AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 builder.Services.AddAutoMapper(typeof(MapperConfiguration));
 builder.Services.AddScoped<ILaptopRepository, LaptopRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILaptopImagesRepository, LaptopImagesRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
