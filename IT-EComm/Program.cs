@@ -16,9 +16,36 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(
     option => option.UseSqlServer(builder.Configuration.GetConnectionString("ITDb")));
 
+//Adding services for Microsoft Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddControllers().AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+
+builder.Services.AddControllers(option =>
+{
+    option.CacheProfiles.Add("CachingFor30Sec", new Microsoft.AspNetCore.Mvc.CacheProfile
+    {
+        Duration = 30
+    });
+}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+
+//Added services for caching
+builder.Services.AddResponseCaching();
+
+//Adding AutoMapper
 builder.Services.AddAutoMapper(typeof(MapperConfiguration));
+
+//Adding api versioning
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
+//Adding local repositories
 builder.Services.AddScoped<ILaptopRepository, LaptopRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILaptopImagesRepository, LaptopImagesRepository>();
@@ -54,6 +81,34 @@ builder.Services.AddSwaggerGen(options =>
         },
         new List<string>()
         }
+    });
+
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version="v1.0",
+        Title="IT-EComm",
+        Description="v1.0 added api endpoints for creating laptops,images and users",
+        Contact= new OpenApiContact
+        {
+            Name="Send Email to the owner of the API if you want to use it",
+            Email="marko.dimitrov96@gmail.com"
+        }
+
+
+    });
+    //TODO: Update V2 add Desktop, and Phones maybe, improve the user information
+    options.SwaggerDoc("v2", new OpenApiInfo
+    {
+        Version = "v2.0",
+        Title = "IT-EComm",
+        Description = "Not yet done",
+        Contact = new OpenApiContact
+        {
+            Name = "Email",
+            Email = "marko.dimitrov96@gmail.com"
+        }
+
+
     });
 
 

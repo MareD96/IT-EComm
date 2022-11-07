@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IT_EComm.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/v{version:apiVersion}/[controller]/[action]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class LaptopImagesController : ControllerBase
     {
         private readonly ILaptopImagesRepository _laptopImagesRepository;
@@ -28,6 +29,7 @@ namespace IT_EComm.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status502BadGateway)]
+        [ResponseCache(CacheProfileName = "CachingFor30Sec")]
         public async Task<ActionResult<APIResponse>> GetAllLaptopImages()
         {
             _logger.LogInformation("Calling GetAllLaptopImages HTTP GET");
@@ -60,6 +62,7 @@ namespace IT_EComm.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(CacheProfileName = "CachingFor30Sec")]
         //Returns one image accordint to the id
         public async Task<ActionResult<APIResponse>> GetLaptopImage(int id)
         {
@@ -106,7 +109,7 @@ namespace IT_EComm.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        //TOBEDONE
+        [ResponseCache(CacheProfileName = "CachingFor30Sec")]
         public async Task<ActionResult<APIResponse>> GetAllLaptopImages(int laptopid)
         {
             _logger.LogInformation("Calling GetLaptop by Id HTTP GET");

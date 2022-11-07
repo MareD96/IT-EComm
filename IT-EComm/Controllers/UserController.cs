@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IT_EComm.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;

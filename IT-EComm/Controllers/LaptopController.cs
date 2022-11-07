@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IT_EComm.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class LaptopController : ControllerBase
     {
         private readonly ILaptopRepository _laptopRepository;
@@ -25,9 +26,9 @@ namespace IT_EComm.Controllers
         }
 
         [HttpGet]
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status502BadGateway)]
+        [ResponseCache(CacheProfileName = "CachingFor30Sec")]
         public async Task<ActionResult<APIResponse>> GetLaptops()
         {
             _logger.LogInformation("Calling GetAllLaptops HTTP GET");
@@ -61,6 +62,7 @@ namespace IT_EComm.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(CacheProfileName = "CachingFor30Sec")]
         public async Task<ActionResult<APIResponse>> GetLaptops(int id)
         {
             _logger.LogInformation("Calling GetLaptop by Id HTTP GET");
