@@ -1,8 +1,39 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Choose a Product";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="pb-2">Select a product which you wanna buy!</h1>
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-md-5 offset-1">
+            <div class="card-content">
+                <div class="card-img">
+                    <img style="width:450px" src="https://images.unsplash.com/photo-1618424181497-157f25b6ddd5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bGFwdG9wJTIwY29tcHV0ZXJ8ZW58MHx8MHx8&w=1000&q=80" alt="Picture of laptop.">
+                </div>
+                <div class="card-desc">
+                    <h3>Laptops</h3>
+                    <p>
+                        On our web site you can find a lot of laptops like a gaming,apple or bussniess laptop. Go on this page to find a laptop which best sutis you. :-)
+                    </p>
+                    <a asp-action="Index" asp-controller="Laptop" class="btn-card">Show all laptops</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 offset-1">
+            <div class="card-content">
+                <div class="card-img">
+                    <img style="width:490px" src="https://images.saymedia-content.com/.image/t_share/MTc0NDY0NTMyOTQzNDgwNDU0/buying-your-first-desktop-computer.jpg" alt="Picture of desktop.">
+                </div>
+                <div class="card-desc">
+                    <h3>Desktop</h3>
+                    <p>
+                        On our web site you can find a lot of desktop computers like a gaming,mac or bussniess desktoppc. Go on this page to find a laptop which best sutis you. :-)
+                    </p>
+                    <a href="#" class="btn-card">Show all PC-s (currently not avalible)</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- credit: https://bootsnipp.com/snippets/WaeDX -->
